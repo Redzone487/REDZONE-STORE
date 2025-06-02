@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jasa Website & Produk</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+  }
+  .overlay {
+    position: fixed;
+    top: 0; left: 0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7);
+    z-index: -1;
+  }
+  header {
+    background: rgba(0,0,0,0.6);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    user-select: none;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 2rem auto 4rem auto;
+    background: rgba(0,0,0,0.55);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 12px 3px rgba(255 255 255 / 0.1);
+  }
+  h2 {
+    margin-top: 0;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* Login/Register Form */
+  form {
+    max-width: 400px;
+    margin: auto;
+    background: rgba(255,255,255,0.1);
+    padding: 1.5rem 2rem 2rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(255 255 255 / 0.2);
+  }
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  button {
+    width: 100%;
+    padding: 0.7rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: linear-gradient(45deg, #1de9b6, #1dc4e9);
+    color: #000;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #13bcb4, #12a9ce);
+  }
+  .link-button {
+    background: none;
+    color: #1de9b6;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+  .link-button:hover {
+    color: #12a9ce;
+  }
+  .error-message {
+    color: #ff7675;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .success-message {
+    color: #7fff7f;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  /* Products */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .product-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 10px 2px rgba(255 255 255 / 0.15);
+    color: #fff;
+  }
+  .product-card h3 {
+    margin: 0 0 0.5rem 0;
+  }
+  .product-description {
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0.8rem;
+    min-height: 60px;
+  }
+  .product-price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .product-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-order, .btn-contact {
+    padding: 0.45rem 0.7rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #000;
+    background: #1de9b6;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn-order:hover, .btn-contact:hover {
+    background: #12a9ce;
+    color: #fff;
+  }
+
+  /* Admin Dashboard */
+  .admin-dashboard {
+    max-width: 700px;
+    margin: auto;
+  }
+  .admin-products-list {
+    margin-top: 1rem;
+  }
+  .admin-product-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.6rem;
+    border-radius: 8px;
+    align-items: center;
+    color: #fff;
+  }
+  .admin-product-row input[type=text], .admin-product-row input[type=number] {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+  }
+  .admin-product-row textarea {
+    flex: 2;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    resize: vertical;
+    max-height: 60px;
+  }
+  .admin-product-row button {
+    flex: 0 0 90px;
+    background: #ff7675;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .admin-product-row button:hover {
+    background: #ff4949;
+  }
+  .admin-add-product {
+    margin-top: 2rem;
+    background: rgba(255,255,255,0.1);
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  .admin-add-product input, .admin-add-product textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+  }
+  .admin-add-product button {
+    width: 100%;
+    background: #1de9b6;
+    color: #000;
+    font-weight: 700;
+    padding: 0.7rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    transition: background 0.3s ease;
+  }
+  .admin-add-product button:hover {
+    background: #12a9ce;
+    color: #fff;
+  }
+  .logout-btn {
+    background: #ff7675;
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    float: right;
+    margin-top: -48px;
+    transition: background 0.3s ease;
+  }
+  .logout-btn:hover {
+    background: #ff4949;
+  }
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  @media (max-width: 768px) {
+    main {
+      margin: 1rem;
+      padding: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<header>Jasa Website Redzone Store</header>
+<main id="app">
+  <!-- login/register form -->
+  <section id="auth-section" style="display:none;">
+    <h2 id="auth-title">Login</h2>
+    <form id="auth-form">
+      <div class="error-message" id="auth-error"></div>
+      <div class="success-message" id="auth-success"></div>
+      <label for="username">Username</label>
+      <input type="text" id="username" required minlength="3" autocomplete="off" />
+      <label for="password">Password</label>
+      <input type="password" id="password" required minlength="4" autocomplete="off" />
+      <button type="submit" id="auth-submit">Login</button>
+    </form>
+    <button class="link-button" id="toggle-auth">Don't have account? Register here</button>
+  </section>
+
+  <!-- product listing -->
+  <section id="products-section" style="display:none;">
+    <button class="logout-btn" id="logout-btn">Logout</button>
+    <h2>Daftar Produk</h2>
+    <div class="products-grid" id="products-grid">
+      <!-- Products will be loaded here -->
+    </div>
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="#" id="contact-whatsapp" class="btn-contact" target="_blank" rel="noopener noreferrer">Kontak Kami via WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- admin dashboard -->
+  <section id="admin-section" style="display:none;">
+    <button class="logout-btn" id="admin-logout-btn">Logout</button>
+    <h2>Dashboard Admin - Kelola Produk</h2>
+
+    <div class="admin-products-list" id="admin-products-list">
+      <!-- Admin edit product rows -->
+    </div>
+
+    <div class="admin-add-product">
+      <h3>Tambah Produk Baru</h3>
+      <input type="text" id="new-product-name" placeholder="Nama Produk" required />
+      <input type="number" id="new-product-price" placeholder="Harga (Rupiah)" required min="0" />
+      <textarea id="new-product-description" rows="3" placeholder="Deskripsi Produk"></textarea>
+      <input type="text" id="new-product-whatsapp" placeholder="Nomor WhatsApp untuk pemesanan (contoh: 6281234567890)" />
+      <button id="add-product-btn">Tambah Produk</button>
+    </div>
+  </section>
+</main>
+<footer>© 2025 Jasa Pembuatan Website dan Aman - Made with ❤️</footer>
+
+<script>
+  // Sample admin credentials (hardcoded)
+  const ADMIN_USERNAME = 'admin';
+  const ADMIN_PASSWORD = 'admin5555';
+
+  // LocalStorage keys
+  const LS_USERS = 'jasa_users';
+  const LS_PRODUCTS = 'jasa_products';
+  const LS_LOGGED_IN_USER = 'jasa_logged_in_user';
+
+  // Elements
+  const authSection = document.getElementById('auth-section');
+  const productsSection = document.getElementById('products-section');
+  const adminSection = document.getElementById('admin-section');
+  const authTitle = document.getElementById('auth-title');
+  const authForm = document.getElementById('auth-form');
+  const authError = document.getElementById('auth-error');
+  const authSuccess = document.getElementById('auth-success');
+  const authSubmitBtn = document.getElementById('auth-submit');
+  const toggleAuthBtn = document.getElementById('toggle-auth');
+  const logoutBtn = document.getElementById('logout-btn');
+  const adminLogoutBtn = document.getElementById('admin-logout-btn');
+  const productsGrid = document.getElementById('products-grid');
+  const adminProductsList = document.getElementById('admin-products-list');
+  const addProductBtn = document.getElementById('add-product-btn');
+  const newProductName = document.getElementById('new-product-name');
+  const newProductPrice = document.getElementById('new-product-price');
+  const newProductDescription = document.getElementById('new-product-description');
+  const newProductWhatsapp = document.getElementById('new-product-whatsapp');
+  const contactWhatsappBtn = document.getElementById('contact-whatsapp');
+
+  let isLogin = true; // login mode or register mode
+
+  // Functions to get/set users and products in localStorage
+  function getUsers() {
+    return JSON.parse(localStorage.getItem(LS_USERS) || '[]');
+  }
+  function saveUsers(users) {
+    localStorage.setItem(LS_USERS, JSON.stringify(users));
+  }
+  function getProducts() {
+    return JSON.parse(localStorage.getItem(LS_PRODUCTS) || '[]');
+  }
+  function saveProducts(products) {
+    localStorage.setItem(LS_PRODUCTS, JSON.stringify(products));
+  }
+  function getLoggedInUser() {
+    return JSON.parse(localStorage.getItem(LS_LOGGED_IN_USER) || 'null');
+  }
+  function saveLoggedInUser(user) {
+    localStorage.setItem(LS_LOGGED_IN_USER, JSON.stringify(user));
+  }
+  function logoutUser() {
+    localStorage.removeItem(LS_LOGGED_IN_USER);
+  }
+
+  // On load check logged in user
+  function initialize() {
+    const loggedUser = getLoggedInUser();
+    if (loggedUser) {
+      if (loggedUser.username === ADMIN_USERNAME) {
+        showAdminDashboard();
+      } else {
+        showProductsPage();
+      }
+    } else {
+      showAuthPage();
+    }
+  }
+
+  function showAuthPage() {
+    authError.textContent = '';
+    authSuccess.textContent = '';
+    isLogin = true;
+    authTitle.textContent = 'Login';
+    authSubmitBtn.textContent = 'Login';
+    toggleAuthBtn.textContent = "Don't have account? Register here";
+    authForm.reset();
+    authSection.style.display = 'block';
+    productsSection.style.display = 'none';
+    adminSection.style.display = 'none';
+  }
+
+  function showProductsPage() {
+    authSection.style.display = 'none';
+    productsSection.style.display = 'block';
+    adminSection.style.display = 'none';
+    renderProducts();
+  }
+
+  function showAdminDashboard() {
+    authSection.style.display = 'none';
+    productsSection.style.display = 'none';
+    adminSection.style.display = 'block';
+    renderAdminProducts();
+  }
+
+  // Toggle login/register mode
+  toggleAuthBtn.addEventListener('click', () => {
+    authError.textContent = '';
+    authSuccess.textContent = '';
+    isLogin = !isLogin;
+    if (isLogin) {
+      authTitle.textContent = 'Login';
+      authSubmitBtn.textContent = 'Login';
+      toggleAuthBtn.textContent = "Don't have account? Register here";
+    } else {
+      authTitle.textContent = 'Register';
+      authSubmitBtn.textContent = 'Register';
+      toggleAuthBtn.textContent = 'Already have account? Login here';
+    }
+    authForm.reset();
+  });
+
+  // Auth form submit
+  authForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    authError.textContent = '';
+    authSuccess.textContent = '';
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    if (!username || !password) {
+      authError.textContent = 'Please fill all fields.';
+      return;
+    }
+    if (isLogin) {
+      loginUser(username, password);
+    } else {
+      registerUser(username, password);
+    }
+  });
+
+  function registerUser(username, password) {
+    if (username.toLowerCase() === ADMIN_USERNAME) {
+      authError.textContent = 'Cannot use reserved username.';
+      return;
+    }
+    let users = getUsers();
+    if (users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
+      authError.textContent = 'Username already exists.';
+      return;
+    }
+    users.push({ username, password });
+    saveUsers(users);
+    authSuccess.textContent = 'Registration successful! You can now login.';
+    authForm.reset();
+    isLogin = true;
+    authTitle.textContent = 'Login';
+    authSubmitBtn.textContent = 'Login';
+    toggleAuthBtn.textContent = "Don't have account? Register here";
+  }
+
+  function loginUser(username, password) {
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+      saveLoggedInUser({ username: ADMIN_USERNAME, isAdmin: true });
+      showAdminDashboard();
+      return;
+    }
+    let users = getUsers();
+    const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+    if (!user) {
+      authError.textContent = 'Invalid username or password.';
+      return;
+    }
+    saveLoggedInUser({ username: user.username, isAdmin: false });
+    showProductsPage();
+  }
+
+  logoutBtn.addEventListener('click', () => {
+    logoutUser();
+    showAuthPage();
+  });
+  adminLogoutBtn.addEventListener('click', () => {
+    logoutUser();
+    showAuthPage();
+  });
+
+  // Render products for customers
+  function renderProducts() {
+    const products = getProducts();
+    if (products.length === 0) {
+      productsGrid.innerHTML = '<p style="text-align:center; width: 100%;">Tidak ada produk tersedia saat ini.</p>';
+      contactWhatsappBtn.href = 'https://wa.me/6281234567890'; // default contact
+      return;
+    }
+    productsGrid.innerHTML = '';
+    products.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'product-card';
+      const productHTML = `
+        <h3>${escapeHTML(p.name)}</h3>
+        <div class="product-description">${escapeHTML(p.description || '')}</div>
+        <div class="product-price">Rp ${formatCurrency(p.price)}</div>
+        <div class="product-buttons">
+          <a href="${whatsappOrderUrl(p)}" target="_blank" rel="noopener noreferrer" class="btn-order" title="Pesan via WhatsApp">Pesan</a>
+        </div>
+      `;
+      el.innerHTML = productHTML;
+      productsGrid.appendChild(el);
+    });
+    // Contact WhatsApp to default or first product's WhatsApp
+    if(products[0] && products[0].whatsapp){
+      contactWhatsappBtn.href = 'https://wa.me/' + encodeURIComponent(products[0].whatsapp.replace(/\D/g,''));
+    } else {
+      contactWhatsappBtn.href = 'https://wa.me/6281234567890';
+    }
+  }
+
+  // Escape HTML to avoid XSS
+  function escapeHTML(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Format number to currency string
+  function formatCurrency(num) {
+    return num.toLocaleString('id-ID');
+  }
+
+  // WhatsApp order URL with prefilled message
+  function whatsappOrderUrl(product) {
+    if (!product.whatsapp) return '#';
+    const phone = product.whatsapp.replace(/\D/g,'');
+    const message = encodeURIComponent(`Halo, saya ingin memesan produk *${product.name}* dengan harga Rp ${formatCurrency(product.price)}.`);
+    return `https://wa.me/${phone}?text=${message}`;
+  }
+
+  // Admin dashboard - render products list with editable fields
+  function renderAdminProducts() {
+    const products = getProducts();
+    adminProductsList.innerHTML = '';
+    if (products.length === 0) {
+      adminProductsList.innerHTML = '<p>Tidak ada produk terdaftar.</p>';
+      return;
+    }
+    products.forEach((p, idx) => {
+      const row = document.createElement('div');
+      row.className = 'admin-product-row';
+      row.innerHTML = `
+        <input type="text" value="${escapeHTML(p.name)}" placeholder="Nama Produk" data-index="${idx}" data-field="name" />
+        <input type="number" min="0" value="${p.price}" placeholder="Harga" data-index="${idx}" data-field="price" />
+        <textarea placeholder="Deskripsi" data-index="${idx}" data-field="description">${escapeHTML(p.description || '')}</textarea>
+        <input type="text" placeholder="No WhatsApp pemesanan" data-index="${idx}" data-field="whatsapp" value="${escapeHTML(p.whatsapp || '')}" />
+        <button data-index="${idx}" class="btn-delete">Hapus</button>
+      `;
+      adminProductsList.appendChild(row);
+    });
+    // Add event listeners for inputs
+    [...adminProductsList.querySelectorAll('input,textarea')].forEach(input => {
+      input.addEventListener('input', adminProductInputChange);
+    });
+    // Add event listeners for delete button
+    [...adminProductsList.querySelectorAll('.btn-delete')].forEach(btn => {
+      btn.addEventListener('click', adminDeleteProduct);
+    });
+  }
+
+  // Admin - handle input change to update product data in localStorage
+  function adminProductInputChange(e) {
+    const el = e.target;
+    const idx = el.getAttribute('data-index');
+    const field = el.getAttribute('data-field');
+    let products = getProducts();
+    if(idx === null || field === null) return;
+    let value = el.value;
+    if (field === 'price') {
+      value = parseInt(value) || 0;
+    }
+    products[idx][field] = value;
+    saveProducts(products);
+  }
+
+  // Admin - delete product
+  function adminDeleteProduct(e) {
+    const idx = e.target.getAttribute('data-index');
+    if (idx === null) return;
+    let products = getProducts();
+    products.splice(idx, 1);
+    saveProducts(products);
+    renderAdminProducts();
+  }
+
+  // Admin - add new product
+  addProductBtn.addEventListener('click', () => {
+    const name = newProductName.value.trim();
+    const price = parseInt(newProductPrice.value);
+    const description = newProductDescription.value.trim();
+    const whatsapp = newProductWhatsapp.value.trim();
+
+    if (!name || isNaN(price) || price < 0) {
+      alert('Nama produk dan harga yang valid dibutuhkan.');
+      return;
+    }
+
+    let products = getProducts();
+    products.push({ name, price, description, whatsapp });
+    saveProducts(products);
+
+    newProductName.value = '';
+    newProductPrice.value = '';
+    newProductDescription.value = '';
+    newProductWhatsapp.value = '';
+
+    renderAdminProducts();
+    alert('Produk berhasil ditambahkan.');
+  });
+
+  // Initialize app on page load
+  initialize();
+</script>
+</body>
+</html>
+
